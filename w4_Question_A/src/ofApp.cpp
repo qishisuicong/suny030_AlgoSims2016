@@ -16,6 +16,8 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     planet01.update();
+    planet02.update();
+    planet03.update();
 
 }
 

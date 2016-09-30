@@ -26,4 +26,6 @@ public:
     ofImage sun;
     ofImage earth;
     ofImage work;
-};
+    int counter = int(ofRandom(1,4));
+
+    };
