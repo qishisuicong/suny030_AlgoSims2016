@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxGui.h"
 #include "spring.hpp"
 
 class ofApp : public ofBaseApp{
@@ -22,6 +23,9 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
+    ofxPanel gui;
+
     vector<Spring> springs;
+    
    
 };
