@@ -10,9 +10,9 @@
 
 void Spring::setup(){
     ofBackground(0);
-    springsGroup.add(k.set("Speed",0.05,0,20));
+    springsGroup.add(k.set("Speed",0.05,0,2));
 //    k = 0.05;
-    springsGroup.add(restLength.set("Length",200,0,200));
+    springsGroup.add(restLength.set("Length",500,0,500));
 //    restLength = 200;
     
     anchor = ofVec2f(ofGetWidth()/2, ofGetHeight()/2);

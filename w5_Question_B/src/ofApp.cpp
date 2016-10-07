@@ -2,22 +2,14 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-   
     
-    
-    for (int i = 0; i<5; i++) {
-    
-        spring1.setup();
-        spring2.setup();
-        spring3.setup();
-        springsGroups.add(spring1.springsGroup);
-        springsGroups.add(spring2.springsGroup);
-        springsGroups.add(spring3.springsGroup);
-        gui.setup(springsGroups);
-    }
-    
+    spring1.setup();
+    spring2.setup();
+    spring3.setup();
+    springsGroups.add(spring1.springsGroup);
+    springsGroups.add(spring2.springsGroup);
+    springsGroups.add(spring3.springsGroup);
     gui.setup(springsGroups);
-    
     
 //    ball.setup();
 //    ball.ballpos(float x, float y);
@@ -37,6 +29,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     gui.draw();
+//    ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
     spring1.draw();
     spring2.draw();
     spring3.draw();
