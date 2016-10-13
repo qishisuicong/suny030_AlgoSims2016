@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     
-    for (int i = 0; i<ofRandom(15);i++){
+    for (int i = 0; i<ofRandom(20);i++){
         ofPoint tempdest;
         dest.push_back(tempdest);
         dest[i]=ofPoint(ofRandomWidth(), ofRandomHeight() );
