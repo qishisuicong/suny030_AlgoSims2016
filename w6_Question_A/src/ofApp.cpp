@@ -25,10 +25,10 @@ void ofApp::update(){
     for(int i = 0; i<cars.size();i++){
         cars[i].seek(dest[i]);
         if( cars[i].getPosition().distance( cars[i+1].getPosition() ) < area ){
-            cars[i].color = ofColor(ofRandom(255),100);
+            cars[i].color = ofColor(100,69,200);
             cars[i].addRepulsionForce( cars[i].getPosition(), area,  0.1 );
         }else{
-            cars[i].color = ofColor(ofRandom(255),10,10);
+            cars[i].color = ofColor(220,69,100);
             }
         cars[i].update();
         if( cars[i].getPosition().distance(dest[i]) < 5){
