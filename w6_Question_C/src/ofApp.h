@@ -20,7 +20,7 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    ofEasyCam cam;
+//    ofEasyCam cam;
     vector<Particle> flockingParticles;
 		
     int num;

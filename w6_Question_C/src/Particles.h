@@ -17,7 +17,6 @@ public:
     ofPoint cohesion(vector<Particle> &particles);
     ofPoint separation(vector<Particle> &particles);
     ofPoint allignment(vector<Particle> &particles);
-    ofPoint tend_to_place(vector<Particle> &particles);
     
     ofPoint pos;
     ofPoint vel;

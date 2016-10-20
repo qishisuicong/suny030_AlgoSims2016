@@ -21,8 +21,8 @@ public:
     void draw();
     void addRepulsionForce(ofPoint _pos, float _radius, float _strength);
     void addAttractionForce( ofPoint _pos, float _radius, float _strength);
-    ofImage yu;
     
+    ofImage yu;
 private:
     ofPoint pos, vel, force; //force is also known an acceleration. Newton F = ma
     float damping;

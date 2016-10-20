@@ -38,12 +38,11 @@ void ofApp::draw(){
     ofSetColor(166,134,190);
     
     
-    ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
-    cam.begin();
+
     for(int i = 0; i < num; i++){
         flockingParticles[i].draw();
     }
-    cam.end();
+ 
     
 }
 

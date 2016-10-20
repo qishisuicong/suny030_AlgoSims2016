@@ -1,10 +1,3 @@
-//
-//  Vehicle.cpp
-//  w6_Question_B
-//
-//  Created by YiqiSun on 2016/10/13.
-//
-//
 
 #include "Vehicle.hpp"
 
@@ -56,7 +49,7 @@ void Vehicle::seek(ofVec2f target) {
     desired.normalize();
     
     if (d == 0) return;
-
+    
     desired.normalize();
     desired *= maxSpeed;
     
@@ -67,35 +60,35 @@ void Vehicle::seek(ofVec2f target) {
 }
 
 void Vehicle::follow(Path p) {
-
+    
     ofVec2f predict = vel;
     predict.normalize();
     predict *= 25;
     ofVec2f predictLoc = pos + predict;
     
-
+    
     ofVec2f a = p.start;
     ofVec2f b = p.end;
     
-
+    
     ofVec2f normalPoint = getNormalPoint(predictLoc, a, b);
     
- 
+    
     ofVec2f dir = b - a;
     dir.normalize();
     dir *= 10;
     ofVec2f target = normalPoint + dir;
-
+    
     float distance = ofDist(predictLoc.x, predictLoc.y, normalPoint.x, normalPoint.y);
     
     if (distance > p.radius) {
         seek(target);
     }
     
-
-        if (distance > p.radius) ofSetColor(100, 0, 0);
-        ofDrawCircle(target.x+dir.x, target.y+dir.y, 8);
-        
+    
+//    if (distance > p.radius) ofSetColor(100, 0, 0);
+//    ofDrawCircle(target.x+dir.x, target.y+dir.y, 8);
+//    
     
     
 }

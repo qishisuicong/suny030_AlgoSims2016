@@ -12,7 +12,6 @@ Particle::Particle(){
     setInitialCondition(ofPoint(0,0), ofPoint(0,0));
     damping = 0.03;
     yu.loadImage("yu.png");
-
     
 }
 

@@ -103,25 +103,14 @@ ofPoint Particle::allignment(vector<Particle> &particles){
     return allignment_velocity;
     
 }
-ofPoint tend_to_place(vector<Particle> &particles){
-    ofPoint place;
-    for(int i = 0; i < particles.size(); i++){
-        place = (place - particles[i].pos);
-    }
-    
-    ofPoint tend_to_place = place;
-    return tend_to_place;
-    
-}
 
 void Particle:: update( vector<Particle> &particles ){
     
     ofPoint v1 = cohesion(particles);
     ofPoint v2 = separation(particles);
     ofPoint v3 = allignment(particles);
-    ofPoint v4 = tend_to_place(particles);
     
-    vel += v1 + v2 + v3 + v4;
+    vel += v1 + v2 + v3;
     pos = pos + vel;
     
 }
