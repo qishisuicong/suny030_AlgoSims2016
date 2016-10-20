@@ -51,7 +51,7 @@ void ofApp::update(){
             float noiseX=ofMap(meshx, 0, titleCount, 0, noiseXRange);
             float noiseY=ofMap(meshy, 0, titleCount, 0, noiseYRange);
             
-            float x1 = 2*ofNoise(noiseX+noiseOffset, noiseY,time);
+            float x1 = ofNoise(noiseX+noiseOffset, noiseY,time);
             float y1 = 2*ofNoise(noiseX+noiseOffset,noiseY+noiseStepY,time);
             
             ofFill();
