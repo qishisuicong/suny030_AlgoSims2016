@@ -50,6 +50,7 @@ void Vehicle::seek(ofVec2f target) {
     
     if (d == 0) return;
     
+    // Normalize desired and scale to maximum speed
     desired.normalize();
     desired *= maxSpeed;
     
@@ -61,19 +62,20 @@ void Vehicle::seek(ofVec2f target) {
 
 void Vehicle::follow(Path p) {
     
+    // Predict location 25 (arbitrary choice) frames ahead
     ofVec2f predict = vel;
     predict.normalize();
     predict *= 25;
     ofVec2f predictLoc = pos + predict;
     
-    
+    // Look at the line segment
     ofVec2f a = p.start;
     ofVec2f b = p.end;
     
-    
+    // Get the normal point to that line
     ofVec2f normalPoint = getNormalPoint(predictLoc, a, b);
     
-    
+    // Find target point a little further ahead of normal
     ofVec2f dir = b - a;
     dir.normalize();
     dir *= 10;
@@ -81,16 +83,10 @@ void Vehicle::follow(Path p) {
     
     float distance = ofDist(predictLoc.x, predictLoc.y, normalPoint.x, normalPoint.y);
     
+   
     if (distance > p.radius) {
         seek(target);
     }
-    
-    
-//    if (distance > p.radius) ofSetColor(100, 0, 0);
-//    ofDrawCircle(target.x+dir.x, target.y+dir.y, 8);
-//    
-    
-    
 }
 
 ofVec2f Vehicle::getNormalPoint(ofVec2f p, ofVec2f a, ofVec2f b) {

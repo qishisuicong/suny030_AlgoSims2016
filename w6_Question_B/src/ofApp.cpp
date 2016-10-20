@@ -5,6 +5,7 @@ void ofApp::setup(){
     
     ofBackground(255);
     car.setup(ofVec2f(0, ofGetHeight()*0.3), 5, 0.05);
+    
 
     
 }
@@ -21,6 +22,10 @@ void ofApp::draw(){
     car.update();
     path.draw();
     car.draw();
+    float noise=ofNoise(ofGetElapsedTimef());
+    float random=ofRandom(1);
+    ofCircle(ofGetWidth()/4, ofGetHeight()/2, 200*noise);
+    ofCircle(ofGetWidth()*0.75, ofGetHeight()/2, 200*random);
     
 }
 
