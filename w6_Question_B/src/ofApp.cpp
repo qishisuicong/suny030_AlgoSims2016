@@ -22,10 +22,10 @@ void ofApp::draw(){
     car.update();
     path.draw();
     car.draw();
-    float noise=ofNoise(ofGetElapsedTimef());
-    float random=ofRandom(1);
-    ofCircle(ofGetWidth()/4, ofGetHeight()/2, 200*noise);
-    ofCircle(ofGetWidth()*0.75, ofGetHeight()/2, 200*random);
+//    float noise=ofNoise(ofGetElapsedTimef());
+//    float random=ofRandom(1);
+//    ofDrawCircle(ofGetWidth()/4, ofGetHeight()/2, 200*noise);
+//    ofDrawCircle(ofGetWidth()*0.75, ofGetHeight()/2, 200*random);
     
 }
 
