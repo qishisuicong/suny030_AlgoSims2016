@@ -1,10 +1,4 @@
-//
-//  VectorField.hpp
-//  00_SimpleVectorField
-//
-//  Created by Regina Flores on 10/24/16.
-//
-//
+
 
 #pragma once
 

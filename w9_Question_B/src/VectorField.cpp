@@ -1,18 +1,9 @@
-//
-//  VectorField.cpp
-//  00_SimpleVectorField
-//
-//  Created by Regina Flores on 10/24/16.
-//
-//
 
-//magnetic field has a magnitude and direction. The magnitude is the amount of force on the particle and the direction controls which way the particles face.
 
 #include "VectorField.hpp"
 
 
-//50 cols
-//1024 / 20
+
 void VectorField::setup(int _w, int _h, int  _res){
     vectorGroup.add(p.set("Direction",TWO_PI,0,TWO_PI));
     width = _w;
