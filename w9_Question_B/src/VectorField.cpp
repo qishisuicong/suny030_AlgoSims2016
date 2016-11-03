@@ -14,6 +14,7 @@
 //50 cols
 //1024 / 20
 void VectorField::setup(int _w, int _h, int  _res){
+    vectorGroup.add(p.set("Direction",TWO_PI,0,TWO_PI));
     width = _w;
     height = _h;
     res = _res; // passing in 20, so the space between each dot is 20 pixels
@@ -24,10 +25,7 @@ void VectorField::setup(int _w, int _h, int  _res){
     for(int x = 0; x < cols; x++){
         
         vector<ofPoint> column;
-        
-//        http://www.cplusplus.com/reference/vector/vector/resize/
-        
-        column.resize(rows); //when you create an array there is a size that is reserved in the space in your ram. (stack = fast, heap = slow) when you create an array it goes on the stack. to dynamically add to an array, it gets added to the heap. to avoid having to create everything on the heap, you can resize the array beforehand. by setting the size beforehand you are creating contiguous memory on the heap which makes it easier to work with.
+        column.resize(rows);
         table.push_back(column);
         
         for(int y = 0; y < rows; y++){
@@ -39,17 +37,17 @@ void VectorField::setup(int _w, int _h, int  _res){
     }
 }
 
-//
 void VectorField::setNoise(float _time){
     for (int x = 0; x < table.size(); x++) {
         for (int y = 0; y < table[x].size(); y++) {
-            float noise = ofMap( ofNoise(x*0.05, y*0.05, _time*0.1), 0, 1, 0, TWO_PI);
+            float noise = ofMap( ofNoise(x*0.05, y*0.05, _time*0.1), 0, 1, 0, p);
             table[x][y] = ofPoint( cos(noise), sin(noise) ); //range is from -1, 1. So the total length of the line is 1, so you will only ever see a line with a max length of 1. Which on the screen looks like a dot.
         }
     }
 }
 
 void VectorField::draw(){
+    
     for (int x = 0; x < table.size(); x++) {
         for (int y = 0; y < table[x].size(); y++) {
             ofPushMatrix();

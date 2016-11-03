@@ -19,7 +19,8 @@ public:
     
     void update();
     void draw();
-    
+    ofParameterGroup vectorGroup;
+    ofParameter<float> p;
     vector< vector<ofPoint> > table;
     
     int width, height, cols, rows, res;

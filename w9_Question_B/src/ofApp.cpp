@@ -11,6 +11,8 @@ void ofApp::setup(){
         p.setInit(ofPoint(ofRandom(ofGetWidth()),ofRandom(ofGetHeight())));
         particles.push_back(p);
     }
+    vectorGroups.add(vf.vectorGroup);
+    gui.setup(vectorGroups);
 
 }
 
@@ -30,14 +32,14 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofBackground(0);
+        ofBackground(0);
     
     
     for (int i = 0; i < particles.size(); i++) {
         particles[i].draw();
         
     }
-    ofDrawBitmapString("Click Your Mouse", 100, 100);
+    ofDrawBitmapString("Click Your Mouse", 200, 200);
     
 
     //the new way of writing for loops "for each loop"
@@ -47,6 +49,9 @@ void ofApp::draw(){
 //    }
     
     vf.draw();
+    gui.draw();
+
+    
 }
 
 //--------------------------------------------------------------
