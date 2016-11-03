@@ -55,7 +55,7 @@ void VectorField::setNoise(float _time){
             for (int x = 0; x < table[z][y].size(); x++) {
                 float noise = ofMap( ofNoise(x*0.05, y*0.05,z*0.05, _time*0.1), 0, 1, 0, TWO_PI);
 //            table[x][y][z].set( ofVec3f(cos(noise), sin(noise),sin(noise) )); 
-            table[z][y][x].set( ofVec3f( cos(noise) * 20.0, sin(noise) * 20.0, sin (noise) * 20.0 ) );
+            table[z][y][x].set( ofVec3f( cos(noise), sin(noise), sin (noise)) );
         }
     }
 }

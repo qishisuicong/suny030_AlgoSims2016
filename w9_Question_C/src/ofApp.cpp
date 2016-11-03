@@ -6,7 +6,7 @@ void ofApp::setup(){
     vf.setup(ofGetWidth(), ofGetHeight(), 1000, 20);
 //    vf.setNoise();
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 200; i++) {
         Particle p;
         p.setInit(ofPoint(ofRandom(ofGetWidth()),ofRandom(ofGetHeight())));
         particles.push_back(p);
@@ -30,6 +30,10 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    myCam.begin();
+    
+    ofPushMatrix(); {
+        ofTranslate(vf.width*0.5*-1, vf.height*0.5*-1, vf.depth*0.5*-1);
         ofBackground(0);
     
     
@@ -37,7 +41,10 @@ void ofApp::draw(){
         particles[i].draw();
         
     }
-    ofDrawBitmapString("Click Your Mouse", 200, 200);
+      
+    } ofPopMatrix();
+    myCam.end();
+//    ofDrawBitmapString("Click Your Mouse", 200, 200);
     
 
     //the new way of writing for loops "for each loop"
@@ -46,7 +53,7 @@ void ofApp::draw(){
 //        particle.draw();
 //    }
     
-    vf.draw();
+//    vf.draw();
 
     
 }
