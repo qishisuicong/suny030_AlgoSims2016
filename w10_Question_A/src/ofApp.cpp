@@ -45,19 +45,19 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    float time = ofGetElapsedTimef();
-    for(int i=0;i <num; i++){
-
-        int k = i;
-        ofPoint p = mesh.getVertex(k);
-        float perlin = ofNoise(i*0.05, i*0.05,time*0.5);
-        p.z = perlin*200;
-   
-
-        mesh.setVertex(k,p);
-        mesh.setColor(k,ofColor(perlin*255,perlin*255, 255));
-        
-    }
+//    float time = ofGetElapsedTimef();
+//    for(int i=0;i <num; i++){
+//
+//        int k = i;
+//        ofPoint p = mesh.getVertex(k);
+//        float perlin = ofNoise(i*0.05, i*0.05,time*0.5);
+//        p.z = perlin*200;
+//   
+//
+//        mesh.setVertex(k,p);
+//        mesh.setColor(k,ofColor(perlin*255,perlin*255, 255));
+//        
+//    }
 
 }
 
