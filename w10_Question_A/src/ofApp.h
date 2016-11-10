@@ -20,24 +20,18 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		
-    
-    //To make something 3D in OF we use the Easy Cam
     
     ofEasyCam cam;
-    
+    ofMesh mesh,mesh2;
+    int num;
     vector<ofPoint> points;
-    
     vector<float> theta;
     vector<float> phi;
     vector<int> radius;
-    
-    
+    float dist;
     vector<float> changeTheta;
     vector<float> changePhi;
-    
-    int num;
-    
-    float dist;
-    float noisey;
+    int i1, i2, i3, i4;
+ 
+		
 };

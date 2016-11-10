@@ -2,14 +2,11 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    
-    num = 2000;
-    
-    
-    for(int i=0; i< num; i++){
-        //we need to initliaze all of our arrays
-        
-        ofPoint p;
+    int scale = 6;
+    num = 1000;
+    //Arrays(vectors) initialize the arrays
+    for(int i=0;i <num; i++){
+        ofPoint p;//temp
         points.push_back(p);
         
         float t;
@@ -21,91 +18,91 @@ void ofApp::setup(){
         int r;
         radius.push_back(r);
         
+        float chph;
+        changePhi.push_back(chph);
         
-        float chPh;
-        changePhi.push_back(chPh);
+        float cht;
+        changeTheta.push_back(cht);
         
-        float cT;
-        changeTheta.push_back(cT);
-        
+        //make the sphere
 
-    
-    //to make the points randomly distributed on the sphere
-    //we know that theta ranges from 0-2PI
-    //phi ranges from 0-PI
-    
-        theta[i] = ofRandom(0, 2*PI);
-        phi[i] = ofRandom(0,PI);
-//        radius[i] = 180; //if you leave a constant number the points will be evenly distributed on the surface
-        radius[i] = ofRandom(180, 220);
+        theta[i]=ofRandom(0,2*PI);
+        phi[i]=ofRandom(0,PI);
+        radius[i]=ofRandom(180,220);
         
-        
+        //ofPoint(x,y,z)
         points[i] = ofPoint(
-                            radius[i]*cos(theta[i])*sin(phi[i]),
-                            radius[i]*sin(phi[i])*sin(theta[i]),
-                            radius[i]*cos(phi[i])
-                            );
+            radius[i]*sin(phi[i])*cos(theta[i]),
+            radius[i]*sin(phi[i])*sin(theta[i]),
+            radius[i]*cos(phi[i])
+        );
+        mesh.addVertex(points[i]);
+        mesh.addColor(ofColor(0,0,0));
         
-        
-        changeTheta[i] = ofRandom(0,0.01);
-        changePhi[i] = ofRandom(0,0.01);
-        
-    }
-    
+        }
+
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    float time = ofGetElapsedTimef();
+    for(int i=0;i <num; i++){
+
+        int k = i;
+        ofPoint p = mesh.getVertex(k);
+        float perlin = ofNoise(i*0.05, i*0.05,time*0.5);
+        p.z = perlin*200;
+   
+
+        mesh.setVertex(k,p);
+        mesh.setColor(k,ofColor(perlin*255,perlin*255, 255));
+        
+    }
 
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    
-    ofBackground(29, 144, 213);
-    
-    //For 3D to work we use cam.begin and end
+    float time = ofGetElapsedTimef();
+    ofBackground(29,144,213);
     
     cam.begin();
 
-    //Subroutine that enables the sphere to have variability in
-    //r, theta and phi
-    for(int i = 0; i < num; i++){
-        
-        points[i] = ofPoint(radius[i]*cos(theta[i])*sin(phi[i]), radius[i]*sin(theta[i])*sin(phi[i]), radius[i]*cos(phi[i]));
-        
-        
-//        if(radius[i] < 300){
-//            radius[i] ++;
-//        }
-
-        noisey = sin(0.01*ofGetFrameNum());
-        radius[i] = ofNoise(theta[i]*noisey, phi[i]*noisey)*400;
-        
+    for(int i=0; i<num;i++){
+        points[i] = ofPoint(
+                            radius[i]*sin(phi[i])*cos(theta[i]),
+                            radius[i]*sin(phi[i])*sin(theta[i]),
+                            radius[i]*cos(phi[i])
+                            );
         theta[i] += changeTheta[i];
         phi[i] += changePhi[i];
-    }
-
-    
-    for(int i=0; i< num; i++){
-        for(int j=i+1; j< num; j++){
-            ofSetColor(255, 50);
-            
-            dist = pow(points[i].x - points[j].x, 2) + pow(points[i].y - points[j].y, 2) + pow(points[i].z - points[j].z, 2);
-            //            dist = sqrt(dist);
-            
-            
-            //play with this dist for example use mouseX
-//            if (dist < 2*mouseX) {
-            if (dist < 2*1000) {
-
-                ofSetColor(255, 50);
-                ofSetLineWidth(1.5);
-                ofLine(points[i].x, points[i].y, points[i].z, points[j].x, points[j].y, points[j].z);
-            }
+        if(radius[i]<300){
+            radius[i]++;
         }
+    
     }
+    
+    for(int i=0;i<num;i++){
+        for(int j=0;j<num;j++){
+            ofSetColor(255,50);
+            dist = pow(points[i].x-points[j].x,2)+pow(points[i].y-points[j].y,2)+pow(points[i].z-points[j].z, 2);
+            
+            //            dis = sqrt(dist);
+            
+            if(dist<2000){
+//                ofDrawLine(points[i].x, points[i].y, points[i].z, points[j].x, points[j].y, points[j].z);
+                mesh2.addVertex(points[i]);
+    
+
+                
+            };
+        };
+    }
+    mesh.drawWireframe();
+    
+    
     cam.end();
+    
 
 }
 
