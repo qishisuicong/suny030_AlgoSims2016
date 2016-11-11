@@ -22,16 +22,13 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
     ofEasyCam cam;
-    ofMesh mesh,mesh2;
-    int num;
-    vector<ofPoint> points;
-    vector<float> theta;
-    vector<float> phi;
-    vector<int> radius;
-    float dist;
-    vector<float> changeTheta;
-    vector<float> changePhi;
+    ofMesh mesh;
+    int gridWidth;
+    int gridHeight;
     int i1, i2, i3, i4;
- 
+    vector <float> longitude;
+    vector <float> latitude;
+    float SphereRadius;
+    
 		
 };

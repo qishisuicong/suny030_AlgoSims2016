@@ -2,107 +2,79 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    SphereRadius = 250.0;
+    gridWidth = 200;
+    gridHeight = 200;
     int scale = 6;
-    num = 1000;
-    //Arrays(vectors) initialize the arrays
-    for(int i=0;i <num; i++){
-        ofPoint p;//temp
-        points.push_back(p);
-        
-        float t;
-        theta.push_back(t);
-        
-        float ph;
-        phi.push_back(ph);
-        
-        int r;
-        radius.push_back(r);
-        
-        float chph;
-        changePhi.push_back(chph);
-        
-        float cht;
-        changeTheta.push_back(cht);
-        
-        //make the sphere
-
-        theta[i]=ofRandom(0,2*PI);
-        phi[i]=ofRandom(0,PI);
-        radius[i]=ofRandom(180,220);
-        
-        //ofPoint(x,y,z)
-        points[i] = ofPoint(
-            radius[i]*sin(phi[i])*cos(theta[i]),
-            radius[i]*sin(phi[i])*sin(theta[i]),
-            radius[i]*cos(phi[i])
-        );
-        mesh.addVertex(points[i]);
-        mesh.addColor(ofColor(0,0,0));
-        
+    
+    //make a grid of connected lines
+    //which are reallly this notion of vertices
+    for(int y = 0; y<gridWidth; y++){
+        for(int x = 0; x< gridHeight; x++){
+            latitude.push_back( ofMap(x, 0, gridWidth, 0, (2*PI) ) );
+            longitude.push_back( ofMap(y, 0, gridHeight, 0, PI ) );
+            //create our mesh
+//            mesh.addVertex(ofPoint((x-gridWidth*0.5)*scale,(y-gridHeight*0.5)*scale,0));
+//            mesh.addColor(ofColor(0,0,0));
         }
+    }
+    for (unsigned i = 0; i<longitude.size(); i++) {
+        float longTMP = longitude[i];
+        float latTMP = latitude[i];
+        float X = ( SphereRadius * cos(latTMP) * sin(longTMP) );
+        float Y = ( SphereRadius * sin(latTMP) * sin(longTMP) );
+        float Z = ( SphereRadius * cos(longTMP) );
+        ofVec3f temp = ofVec3f(X,Y,Z);
+        mesh.addVertex(temp);
+        mesh.addColor(ofColor(0));
+    }
+    //create triangle indices
+    for(int y = 0; y<gridWidth; y++){
+        for(int x = 0; x<gridHeight; x++){
+            i1 = x+gridWidth*y;
+            i2 = x+1 +gridWidth*y;
+            i3 = x+gridWidth*(y+1);
+            i4 = (x+1)+gridWidth*(y+1);
+            mesh.addTriangle(i1,i2,i3);
+            mesh.addTriangle(i2,i3,i4);
+            
+            
+        }
+    }
+
 
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-//    float time = ofGetElapsedTimef();
-//    for(int i=0;i <num; i++){
-//
-//        int k = i;
-//        ofPoint p = mesh.getVertex(k);
-//        float perlin = ofNoise(i*0.05, i*0.05,time*0.5);
-//        p.z = perlin*200;
-//   
-//
-//        mesh.setVertex(k,p);
-//        mesh.setColor(k,ofColor(perlin*255,perlin*255, 255));
-//        
-//    }
+
+    float time = ofGetElapsedTimef();
+    for(int y = 0; y<gridWidth; y++){
+        for(int x = 0; x< gridHeight; x++){
+            int i = x+gridWidth*y;
+            ofPoint p = mesh.getVertex(i);
+            float perlin = ofNoise(x*0.05, y*0.05,time*0.5);
+//            SphereRadius = perlin*100;
+            p.z = perlin*100;
+            mesh.setVertex(i,p);
+            mesh.setColor(i,ofColor(perlin*268,perlin*200, 210));
+        }
+    }
+    
+    
+
 
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    float time = ofGetElapsedTimef();
-    ofBackground(29,144,213);
-    
     cam.begin();
 
-    for(int i=0; i<num;i++){
-        points[i] = ofPoint(
-                            radius[i]*sin(phi[i])*cos(theta[i]),
-                            radius[i]*sin(phi[i])*sin(theta[i]),
-                            radius[i]*cos(phi[i])
-                            );
-        theta[i] += changeTheta[i];
-        phi[i] += changePhi[i];
-        if(radius[i]<300){
-            radius[i]++;
-        }
     
-    }
-    
-    for(int i=0;i<num;i++){
-        for(int j=0;j<num;j++){
-            ofSetColor(255,50);
-            dist = pow(points[i].x-points[j].x,2)+pow(points[i].y-points[j].y,2)+pow(points[i].z-points[j].z, 2);
-            
-            //            dis = sqrt(dist);
-            
-            if(dist<2000){
-//                ofDrawLine(points[i].x, points[i].y, points[i].z, points[j].x, points[j].y, points[j].z);
-                mesh2.addVertex(points[i]);
-    
-
-                
-            };
-        };
-    }
     mesh.drawWireframe();
     
     
     cam.end();
-    
 
 }
 
