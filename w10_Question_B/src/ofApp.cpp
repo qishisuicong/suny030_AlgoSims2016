@@ -1,81 +1,97 @@
 #include "ofApp.h"
 
-//From tutorial:
-//http://openframeworks.cc/ofBook/chapters/generativemesh.html
-
-
 //--------------------------------------------------------------
 void ofApp::setup(){
-    
-    image.load("stars.jpg");
-    image.resize(200, 200);
-    
-    //    mesh.setMode(OF_PRIMITIVE_POINTS);
-    mesh.setMode(OF_PRIMITIVE_LINES);
-    
-    //    mesh.enableColors();
-    mesh.enableIndices();
-    
-    
-    float intensityThreshold = 150.0;
-    int w = image.getWidth();
-    int h = image.getHeight();
-    for (int x=0; x<w; ++x) {
-        for (int y=0; y<h; ++y) {
-            ofColor c = image.getColor(x, y);
-            float intensity = c.getLightness();
-            if (intensity >= intensityThreshold) {
-                float saturation = c.getSaturation();
-                float z = ofMap(saturation, 0, 255, -100, 100);
-                ofVec3f pos(x*4, y*4, z);
-                mesh.addVertex(pos);
-                // When addColor(...), the mesh will automatically convert
-                // the ofColor to an ofFloatColor
-                mesh.addColor(c);
-            }
-        }
-    }
-    
-    // Let's add some lines!
-    float connectionDistance = 20;
-    int numVerts = mesh.getNumVertices();
-    for (int a=0; a<numVerts; ++a) {
-        ofVec3f verta = mesh.getVertex(a);
-        for (int b=a+1; b<numVerts; ++b) {
-            ofVec3f vertb = mesh.getVertex(b);
-            float distance = verta.distance(vertb);
-            if (distance <= connectionDistance) {
-                // In OF_PRIMITIVE_LINES, every pair of vertices or indices will be
-                // connected to form a line
-                mesh.addIndex(a);
-                mesh.addIndex(b);
-            }
-        }
-    }
-    
+    gui.setup();
+    gui.add(al.setup("Brightness", 225, 0, 225));
+    gui.add(mad.setup("Madness", 0, 0, 10));
 
+    video.load("street.mp4");
+    video.play();
+    video.setVolume(0);
+    //setup fbo;
+    fbo.allocate(videoWidth, videoHeight);
+    //clear fbo
+    fbo.begin();
+    ofClear(255,255,255,0);
+    fbo.end();
+    //adding vertices to the grid
+    for(int y=0; y<H;y++){
+        for(int x = 0; x<W; x++){
+            mesh.addVertex(ofPoint((x-W/2)*meshSize,(y-H/2)*meshSize,0));
+            //add texture coordinates which will allow us to bind textures later on in the code;
+            mesh.addTexCoord(ofPoint(x*videoWidth/W,y*videoHeight/H));
+            mesh.addColor(ofColor(255,255,255));
+        }
+    }
+    //setting up the triangle
+    for(int y=0; y<H-1;y++){
+        for(int x = 0; x<W-1; x++){
+            int i1 = x+W*y;
+            int i2 = x+1+W*y;
+            int i3 = x+W*(y+1);
+            int i4 = x+1+W*(y+1);
+            mesh.addTriangle(i1,i2,i3);
+            mesh.addTriangle(i2,i3,i4);
+        }
+    }
+    
+    
 
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    video.update();
+    if(video.isFrameNew()){
+        //how we update our fbo:
+        fbo.begin();
+        int alpha = al;
+        ofEnableAlphaBlending();
+        ofSetColor(255,255,255,alpha);
+        video.draw(0,0);
+        ofDisableAlphaBlending();
+        fbo.end();
+    }
+    fbo.readToPixels(fboPixels);
+    image.setFromPixels(fboPixels);
+    //create dynamic movement based on the video brightness
+    for(int y=0; y<H-1;y++){
+        for(int x = 0; x<W-1; x++){
+            //each vertex index
+            int i = x+W*y;
+            ofPoint p = mesh.getVertex(i);
+            float scaleX = videoWidth/W;
+            float scaleY = videoHeight/H;
+            //get the index of the pixel
+            //*of pixels in the grid is videoW*videoH
+            //we are mapping the point of the vertex on the mesh to the pixel in the image
+            int index = ((x*scaleX) + videoWidth*(y*scaleY))*4;//fbo has 4 components including alpha
+            int brightness = fboPixels[index]/distortion;
+            p.z = brightness*mad;
+            mesh.setVertex(i,p);
+            mesh.setColor(i,ofColor(255,255,255));
+        }
+    }
+    
 
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+    cam.begin();
     
-    ofColor centerColor = ofColor(85, 78, 68);
-    ofColor edgeColor(0, 0, 0);
-    ofBackgroundGradient(centerColor, edgeColor, OF_GRADIENT_CIRCULAR);
-    
-    easyCam.begin();
-    ofPushMatrix();
-    ofTranslate(-ofGetWidth()/2, -ofGetHeight()/2);
+    ofBackground(0);
+    image.bind();
     mesh.draw();
-    ofPopMatrix();
-    easyCam.end();
+//    mesh.drawWireframe();
+    image.unbind();
+    
+    
+    cam.end();
+    gui.draw();
+
+
 }
 
 //--------------------------------------------------------------

@@ -18,7 +18,7 @@ void ofApp::setup(){
 //            mesh.addColor(ofColor(0,0,0));
         }
     }
-    for (unsigned i = 0; i<longitude.size(); i++) {
+    for (int i = 0; i<longitude.size(); i++) {
         float longTMP = longitude[i];
         float latTMP = latitude[i];
         float X = ( SphereRadius * cos(latTMP) * sin(longTMP) );
@@ -29,12 +29,12 @@ void ofApp::setup(){
         mesh.addColor(ofColor(0));
     }
     //create triangle indices
-    for(int y = 0; y<gridWidth; y++){
-        for(int x = 0; x<gridHeight; x++){
-            i1 = x+gridWidth*y;
-            i2 = x+1 +gridWidth*y;
-            i3 = x+gridWidth*(y+1);
-            i4 = (x+1)+gridWidth*(y+1);
+    for(int y = 0; y<gridWidth-1; y++){
+        for(int x = 0; x<gridHeight-1; x++){
+            i1 = x+(gridWidth)*y;
+            i2 = x+1 +(gridWidth)*y;
+            i3 = x+(gridWidth)*(y+1);
+            i4 = (x+1)+(gridWidth)*(y+1);
             mesh.addTriangle(i1,i2,i3);
             mesh.addTriangle(i2,i3,i4);
             
@@ -55,9 +55,9 @@ void ofApp::update(){
             ofPoint p = mesh.getVertex(i);
             float perlin = ofNoise(x*0.05, y*0.05,time*0.5);
 //            SphereRadius = perlin*100;
-            p.z = perlin*100;
-            mesh.setVertex(i,p);
-            mesh.setColor(i,ofColor(perlin*268,perlin*200, 210));
+            SphereRadius = 100+perlin*100;
+            mesh.setVertex(i,p.getNormalized()*SphereRadius);
+            mesh.setColor(i,ofColor(perlin*245,perlin*236, 220));
         }
     }
     
