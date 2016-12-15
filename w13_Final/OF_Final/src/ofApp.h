@@ -30,6 +30,7 @@ public:
     ofShader shader;
     Fish myfish[fishes];
     float abc;
+    ofSoundPlayer   sea;
 };
 
 
